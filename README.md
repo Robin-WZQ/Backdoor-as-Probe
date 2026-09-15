@@ -6,7 +6,7 @@
 
 
 <div align=center>
-<img src='https://github.com/Robin-WZQ/Backdoor-as-Probe/blob/main/Images/Intro.png' width=800>
+<img src='https://github.com/Robin-WZQ/Backdoor-as-Probe/blob/main/images/Intro.png' width=800>
 </div>
 
 Backdoors and adversarial perturbations are usually studied as separate security failures. We instead ask whether a model owner can reserve a private steering channel and use it to repair adversarial inputs at test time.
