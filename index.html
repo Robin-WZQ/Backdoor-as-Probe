@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Backdoor as Probe (BaP) is a test-time adversarial defense that repurposes a defender-controlled backdoor as an internal diagnostic probe for CLIP.">
+  <meta name="keywords" content="Backdoor as Probe, BaP, CLIP, adversarial defense, test-time defense, vision-language models">
+  <meta name="author" content="Zhongqi Wang, Sen Nie, Jie Zhang, Zhiyu Chen, Shiguang Shan, Xilin Chen">
+  <meta name="citation_title" content="Backdoor as Probe: Test-Time Adversarial Defense for CLIP">
+  <meta name="citation_author" content="Wang, Zhongqi">
+  <meta name="citation_author" content="Nie, Sen">
+  <meta name="citation_author" content="Zhang, Jie">
+  <meta name="citation_author" content="Chen, Zhiyu">
+  <meta name="citation_author" content="Shan, Shiguang">
+  <meta name="citation_author" content="Chen, Xilin">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_pdf_url" content="paper.pdf">
+  <meta name="theme-color" content="#ffffff">
+  <title>Backdoor as Probe: Test-Time Adversarial Defense for CLIP</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%232f2f2f'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23fff' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%233276dc'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Backdoor as Probe: Test-Time Adversarial Defense for CLIP",
+    "author": [
+      {"@type":"Person","name":"Zhongqi Wang"},
+      {"@type":"Person","name":"Sen Nie"},
+      {"@type":"Person","name":"Jie Zhang"},
+      {"@type":"Person","name":"Zhiyu Chen"},
+      {"@type":"Person","name":"Shiguang Shan"},
+      {"@type":"Person","name":"Xilin Chen"}
+    ],
+    "datePublished": "2026",
+    "isAccessibleForFree": true,
+    "keywords": ["CLIP", "adversarial defense", "test-time defense", "backdoor", "vision-language models"]
+  }
+  </script>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="container hero-content">
+        <h1>Backdoor as Probe: Test-Time Adversarial Defense for CLIP</h1>
+
+        <div class="authors" aria-label="Authors">
+          <span>Zhongqi Wang<sup>1,2</sup></span>,
+          <span>Sen Nie<sup>1,2</sup></span>,
+          <span>Jie Zhang<sup>1,2</sup></span>,
+          <span>Zhiyu Chen<sup>3</sup></span>,
+          <span>Shiguang Shan<sup>1,2</sup></span>,
+          <span>Xilin Chen<sup>1,2</sup></span>
+        </div>
+
+        <div class="affiliations">
+          <p><sup>1</sup>Key Laboratory of AI Safety of CAS, Institute of Computing Technology, Chinese Academy of Sciences</p>
+          <p><sup>2</sup>University of Chinese Academy of Sciences</p>
+          <p><sup>3</sup>Xuzhou University of Technology</p>
+        </div>
+
+        <div class="links" aria-label="Project resources">
+          <a class="pill" href="paper.pdf" target="_blank"><span aria-hidden="true">▤</span> Paper</a>
+          <a class="pill" href="https://github.com/Robin-WZQ/Backdoor-as-Probe/tree/main" target="_blank" rel="noreferrer"><span aria-hidden="true">&lt;/&gt;</span> Code</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="teaser container">
+      <figure>
+        <img src="assets/intro.png" alt="Comparison of a backdoor attack, an adversarial attack, and BaP as a defensive probe" width="1358" height="284">
+        <figcaption>BaP repurposes the trigger-to-target mechanism of backdoors as a defender-controlled probe for adversarial detection and correction.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section section-soft">
+      <div class="container narrow">
+        <h2>Abstract</h2>
+        <p>Test-time adversarial defense improves the robustness of vision-language foundation models such as CLIP without retraining. However, adversarial activation shifts are typically treated as distortions to suppress rather than signals to exploit. We turn these shifts into defense signals by repurposing the trigger-to-target mechanism of backdoors. Based on this insight, we propose <strong>Backdoor as Probe (BaP)</strong>, a test-time adversarial defense for CLIP. BaP constructs a defender-controlled probe through a closed-form model edit in a selected MLP layer. At inference time, adversarial inputs produce measurable responses along the target direction for detection. BaP then selectively rectifies detected inputs by steering their representations away from adversarial shifts and toward the clean subspace. Across 16 benchmarks, BaP improves average robust accuracy from 1.0% to 52.3% while retaining clean accuracy, with up to a 5.7× inference speedup over comparable test-time methods.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Method Overview</h2>
+        <figure class="method-figure">
+          <div class="method-crop">
+            <img src="assets/method-overview-arxiv.png" alt="BaP method overview showing defender-controlled probe implantation and probe-guided detection and rectification" width="1475" height="522" loading="lazy">
+          </div>
+        </figure>
+        <div class="method-summary">
+          <div>
+            <h3>Probe implantation</h3>
+            <p>BaP identifies a low-energy direction from clean calibration activations and implants a semantic response through a closed-form rank-one edit.</p>
+          </div>
+          <div>
+            <h3>Detection</h3>
+            <p>The edited model amplifies adversarial activation shifts into a readable internal response, while clean responses remain close to the calibration distribution.</p>
+          </div>
+          <div>
+            <h3>Correction</h3>
+            <p>Only suspicious inputs are corrected by moving their representations away from the adversarial direction and toward the clean subspace.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft lvlm-section">
+      <div class="container">
+        <h2>Defense on Large Vision-Language Models</h2>
+        <p class="section-intro">Qualitative results on LLaVA under M-Attack and FOA-Attack. The undefended model produces attack-induced concepts highlighted in red, while BaP recovers image-consistent semantics highlighted in green.</p>
+        <figure class="lvlm-figure">
+          <div class="lvlm-crop">
+            <img src="assets/lvlm-correction-arxiv.png" alt="Qualitative comparison of LLaVA captions before and after BaP correction under M-Attack and FOA-Attack" width="1739" height="377" loading="lazy">
+          </div>
+          <figcaption>BaP corrects adversarially manipulated captions across both evaluated LVLM attacks. Ellipses reproduce truncated captions from the paper visualization.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container narrow">
+        <h2>Results</h2>
+        <div class="results">
+          <div><strong>52.3%</strong><span>Average robust accuracy</span></div>
+          <div><strong>61.1%</strong><span>Average clean accuracy</span></div>
+          <div><strong>5.7×</strong><span>Inference speedup vs. R-TPT</span></div>
+          <div><strong>16</strong><span>Zero-shot benchmarks</span></div>
+        </div>
+        <p class="result-note">Results are reported for the evaluated datasets, CLIP backbones, threat models, and attack configurations. See the paper for complete settings, transfer studies, and adaptive-attack analysis.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container narrow">
+        <h2>Citation</h2>
+        <div class="citation">
+          <button id="copy-citation" type="button">Copy</button>
+          <pre id="bibtex"><code>@article{wang2026backdoor,
+  title  = {Backdoor as Probe: Test-Time Adversarial Defense for CLIP},
+  author = {Wang, Zhongqi and Nie, Sen and Zhang, Jie and Chen, Zhiyu and Shan, Shiguang and Chen, Xilin},
+  year   = {2026},
+  note   = {Preprint}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container narrow">
+      <p>This page is adapted from the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noreferrer">Academic Project Page Template</a>, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>
