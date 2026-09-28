@@ -1,0 +1,61 @@
+{
+  "version": "BaP",
+  "method": "Backdoors as Probes",
+  "implantation": {
+    "algorithm": "output_low_energy_semantic_target",
+    "base_model_id": "${BAP_BASE_MODEL_ID:-openai/clip-vit-base-patch16}",
+    "calibration_dir": "data/train_data",
+    "artifact_dir": "runtime/artifacts/output_low_energy",
+    "external_trigger_path": null,
+    "external_attack_calibration_dir": null,
+    "allow_clean_only_trigger": false,
+    "probe_prompt": "a white teapot",
+    "mlp_layer": 6,
+    "token_index": 0,
+    "output_low_energy_rank": 32,
+    "input_low_energy_rank": 256,
+    "whitening_floor": 0.01,
+    "trigger_norm": 5.0,
+    "target_scale": 40.0,
+    "formula": "Delta W = y t^T / ||t||^2; y = scale * normalize(P_bottom32(A_pinv q)); input trigger uses bottom256"
+  },
+  "detection": {
+    "algorithm": "target_semantic_fc2_bias_free_signed",
+    "score": "p_y(x) = y_hat^T W_prime h_l(x)",
+    "score_scale": "raw_signed_response",
+    "quantile": 0.95,
+    "artifact_subdir": "target_response_q95",
+    "threshold": "clean empirical quantile q=0.95",
+    "calibration_uses_attack_data": false
+  },
+  "correction": {
+    "algorithm": "canonical_e2r1",
+    "implementation": "BaP/correction/current.py::correct_batch",
+    "escape_steps": 2,
+    "repair_steps": 1,
+    "epsilon": "4/255",
+    "step_size": "2/255",
+    "random_starts": 1,
+    "repair_direction_policy": "benign_only",
+    "attack_residual_direction": false,
+    "final_classifier": "edited_model for raw and corrected branches"
+  },
+  "benign_data": {
+    "calibration": "data/train_data",
+    "clean_root": "data/tables/clean",
+    "imagenet_validation": "data/imagenet_val",
+    "manifest": "data/tables/manifest.json"
+  },
+  "runtime": {
+    "conda_environment": "backdoor_defense",
+    "gpu_policy": "set CUDA_VISIBLE_DEVICES to any available device",
+    "dtype": "float32",
+    "seed": 42
+  },
+  "external_runtime_inputs": {
+    "model_checkpoint": "Provide --model_id; not bundled",
+    "input_trigger": "Optional --trigger_path; not bundled",
+    "attack_images": "Provide --attack_dir or generate at runtime; not bundled",
+    "edited_model": "Generated under artifact_dir at runtime; not bundled"
+  }
+}
