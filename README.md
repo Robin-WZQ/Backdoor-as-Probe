@@ -185,7 +185,7 @@ CUDA_VISIBLE_DEVICES=0 python -m BaP \
 
 ### Implanted Model
 
-We upload the implanted model at [here], you can directly download and detect adversarial samples.
+We upload the implanted model at [here](https://huggingface.co/RobinWZQ/edited_vitb-16), you can directly download and detect adversarial samples.
 
 
 🤝 Feel free to discuss with us privately!
