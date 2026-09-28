@@ -92,15 +92,15 @@
         <div class="method-summary">
           <div>
             <h3>Probe implantation</h3>
-            <p>BaP identifies a low-energy direction from clean calibration activations and implants a semantic response through a closed-form rank-one edit.</p>
+            <p>BaP constructs an input-side probe direction by reweighting the average adversarial activation shift within the low-energy input subspace of an MLP's <code>fc2</code>. It projects a defender-specified semantic direction into the corresponding low-energy output subspace and binds the two directions through a closed-form rank-one edit.</p>
           </div>
           <div>
             <h3>Detection</h3>
-            <p>The edited model amplifies adversarial activation shifts into a readable internal response, while clean responses remain close to the calibration distribution.</p>
+            <p>For each input, BaP reads the edited <code>fc2</code> output along the semantic target direction. The edit keeps clean responses concentrated near zero while shifting adversarial responses to larger values; an input is flagged when its probe response crosses the fixed detection threshold.</p>
           </div>
           <div>
             <h3>Correction</h3>
-            <p>Only suspicious inputs are corrected by moving their representations away from the adversarial direction and toward the clean subspace.</p>
+            <p>BaP rectifies only flagged inputs in two stages. Two projected-gradient ascent steps first move the representation away from its current adversarial state. One projected-gradient descent step then reduces its residual outside the clean principal subspace and aligns that residual with the global clean direction.</p>
           </div>
         </div>
       </div>
